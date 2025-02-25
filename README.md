@@ -173,8 +173,12 @@ If you see the any error while running the command:
 > mlflow run .
 ```
 
+“Requires PYTHONPATH set to include components/ for wandb_utils.”
+“Use env_manager='local' in main.py for test_regression_model due to environment constraints.”
 Please, make sure all steps are using **the same** python version and that you have **conda installed**. Additionally, *mlflow* and *wandb* packages are crucial and should have the same version.
 
+“Set PYTHONPATH in ~/.zshrc to include components/ for wandb_utils.”
+“Use env_manager='local' in main.py for test_regression_model due to environment setup.”
 
 ## License
 
