@@ -44,9 +44,8 @@ def test_proper_boundaries(data: pd.DataFrame):
     """
     Test proper longitude and latitude boundaries for properties in and around NYC
     """
-    idx = data['longitude'].between(-74.25, -73.50) & data['latitude'].between(40.5, 41.2)
-
-    assert np.sum(~idx) == 0
+    idx = data['longitude'].between(-74.24, -73.51) & data['latitude'].between(40.51, 41.19)
+    assert np.sum(~idx) == 0, f"Found {np.sum(~idx)} rows outside bounds"
 
 
 def test_similar_neigh_distrib(data: pd.DataFrame, ref_data: pd.DataFrame, kl_threshold: float):
