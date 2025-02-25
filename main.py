@@ -4,7 +4,7 @@ import tempfile
 import os
 import wandb
 import hydra
-import subprocess  # Added for test_regression_model
+import subprocess
 from omegaconf import DictConfig
 
 _steps = [
@@ -13,10 +13,58 @@ _steps = [
     "data_check",
     "data_split",
     "train_random_forest",
-    # "test_regression_model"  # Uncomment if you want it in the default pipeline
+    # "test_regression_model"
 ]
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+def _run_basic_cleaning(input_artifact, output_artifact, output_type, output_description, min_price, max_price):
+    run_id = mlflow.run(
+        os.path.join(ROOT_DIR, "src", "basic_cleaning"),
+        "main",
+        env_manager="conda",
+        parameters={
+            "input_artifact": input_artifact,
+            "output_artifact": output_artifact,
+            "output_type": output_type,
+            "output_description": output_description,
+            "min_price": min_price,
+            "max_price": max_price
+        }
+    )
+    return run_id
+
+def _run_data_check(csv, ref, kl_threshold, min_price, max_price):
+    run_id = mlflow.run(
+        os.path.join(ROOT_DIR, "src", "data_check"),
+        "main",
+        env_manager="conda",
+        parameters={
+            "csv": csv,
+            "ref": ref,
+            "kl_threshold": kl_threshold,
+            "min_price": min_price,
+            "max_price": max_price
+        }
+    )
+    return run_id
+
+def _run_train_random_forest(trainval_artifact, val_size, random_seed, stratify_by, output_artifact, rf_config, max_tfidf_features):
+    run_id = mlflow.run(
+        os.path.join(ROOT_DIR, "src", "train_random_forest"),
+        "main",
+        env_manager="conda",
+        parameters={
+            "trainval_artifact": trainval_artifact,
+            "val_size": val_size,
+            "random_seed": random_seed,
+            "stratify_by": stratify_by,
+            "output_artifact": output_artifact,
+            "rf_config": rf_config,
+            "max_tfidf_features": max_tfidf_features
+        }
+    )
+    return run_id
 
 @hydra.main(config_name='config')
 def go(config: DictConfig):
@@ -95,8 +143,6 @@ def go(config: DictConfig):
                 "--test_dataset", "adam6-western-governors-university/nyc_airbnb/test_data.csv:latest"
             ]
             subprocess.run(cmd, check=True)
-
-# Rest of your helper functions remain unchanged...
 
 if __name__ == "__main__":
     go()
