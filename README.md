@@ -15,6 +15,7 @@ In this project you will build such a pipeline.
   * [The configuration](#the-configuration)
   * [Running the entire pipeline or just a selection of steps](#Running-the-entire-pipeline-or-just-a-selection-of-steps)
   * [Pre-existing components](#pre-existing-components)
+  * Submitted work URLs
   * Updates
 
 ## Preliminary steps
@@ -173,6 +174,10 @@ If you see the any error while running the command:
 ```
 > mlflow run .
 ```
+
+### Submitted work URLs
+- https://github.com/andyaudamwgu/Project-Build-an-ML-Pipeline-Starter/tree/main
+- https://wandb.ai/adam6-western-governors-university/nyc_airbnb
 
 ### Updates Specific to this iteration of the project
 Requires PYTHONPATH set to include components/ for wandb_utils.
